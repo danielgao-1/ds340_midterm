@@ -1,0 +1,1 @@
+This project aims to explore the dataset called, "Predict Droughts using Weather & Soil Data". In addition, we aim to implement several machine learning models and explorary data analsysi. Publicily avaiblable on Kaggle.com: https://www.kaggle.com/datasets/cdminix/us-drought-meteorological-data/data
