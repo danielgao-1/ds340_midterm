@@ -1,6 +1,6 @@
 ---
 title: "feature_selection"
-author: "Daniel Gao"
+author: "Daniel Gao, Aarnav Putta"
 date: "2024-11-07"
 output: html_document
 ---
