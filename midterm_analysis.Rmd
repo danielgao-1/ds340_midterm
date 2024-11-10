@@ -1,0 +1,144 @@
+---
+title: "midterm_analysis"
+author: "Daniel Gao, Aarnav Putta"
+date: "2024-10-27"
+output: html_document
+---
+
+
+### Front Matter
+```{r}
+#Add libraries as needed
+library(tidyverse)
+remove(list = ls())
+```
+
+### Data
+```{r}
+test = read.csv("./test_timeseries.csv/test_timeseries.csv") 
+train = read.csv("./train_timeseries.csv/train_timeseries.csv") 
+val = read.csv("./validation_timeseries.csv/validation_timeseries.csv") 
+soil = read.csv("./soil_data.csv")
+
+#Combine test, train, val - will be used later in the code block
+Drought <-
+  test %>%
+  bind_rows(train) %>%
+  bind_rows(val)
+```
+
+#### Brief Overview of the Datasets
+This section gives a brief overview of the datasets that will be used in this project. There are 4 total datasets used: test, train, val, and soil. The test, train, and val datasets are the main datasets that will be used for training, testing, and validation of the models. The soil dataset is an extra that will be explored later.
+```{r}
+head(test)
+head(soil)
+
+cat(" # Rows for Train:",nrow(train), "\n",
+    "# Rows for Test:",nrow(test), "\n",
+    "# Rows for Val:",nrow(val), "\n",
+    "# Rows for Soil:", nrow(soil), "\n")
+#displaying the rest of the datasets will be redundant
+```
+###### Features of the Datasets
+```{r}
+#number of variables 
+num1 <- ncol(test) 
+num2 <- ncol(soil)
+cat(" Number of features in DroughtEd:", num1,"\n",
+    "Number of features in Soil:", num2)
+```
+
+The features for each datasets are 21 features for DroughtEd and 32 features in Soil. The code block below aims to view the names of all the features in each dataset.
+
+The features for Drought is:\
+flips\
+date\
+PRECTOT\
+PS\
+QV2M\
+T2M\
+T2MDEW\
+T2MWET\
+T2M_MAX\
+T2M_MIN\
+T2M_RANGE\
+TS WS10M\
+WS10M_MAX\
+WS10M_MIN\
+WS10M_RANGE\
+WS50M\
+WS50M_MAX\
+WS50M_MIN\
+WS50M_RANGE\
+Target variable: score 
+
+The features for Soil is:\
+fips\
+lat\
+lon\
+elevation\
+slope1\
+slope2\
+slope3\
+slope4\ 
+slope5\ 
+slope6\
+slope7\
+slope8\
+aspectN\
+aspectE\
+aspectS\
+aspectW\
+aspectUnknown\
+WAT_LAND\
+NVG_LAND\
+URB_LAND\
+GRS_LAND\
+FOR_LAND\
+CULTRF_LAND\
+CULTIR_LAND\
+CULT_LAND\
+SQ1\
+SQ2\
+SQ3\
+SQ4\
+SQ5\
+SQ6\
+SQ7\
+
+
+```{r}
+cat("Features for DroughtED:\n", names(Drought),"\n\n",
+    "Features for Soil:\n", names(soil))
+```
+
+
+```{r}
+#null value checker
+null_test <- colSums(is.na(test))
+null_train <- colSums(is.na(train))
+null_val <- colSums(is.na(val))
+colSums(is.na(soil))
+
+score <- null_test + null_train + null_val
+
+score
+
+```
+*Thoughts* Viewing the results, we see that there are a large number of null observations (3891216) in the *score* variable. With this knowledge, we can assume that the rows containing the null values can be removed. This is because score is the target variable that will be used for our models. 
+###### Removing Null Values From Datasets
+```{r}
+DroughtED <-
+  Drought %>%
+  filter(score != 0)
+cat("Results from removing the null values\n", 
+    "Before:", nrow(Drought), "\n",
+    "After:", nrow(DroughtED),"\n",
+    "Total Removed:", nrow(Drought) - nrow(DroughtED),"\n",
+    "Percentage Removed:",1-nrow(DroughtED)/nrow(Drought) ) 
+```
+
+
+
+
+
