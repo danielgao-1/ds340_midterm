@@ -1,6 +1,6 @@
 ---
-title: "lstm"
-author: "Daniel Gao"
+title: "ridge regression"
+author: "Daniel Gao, Aarnav Putta"
 date: "2024-11-07"
 output: html_document
 ---
