@@ -1,0 +1,61 @@
+---
+title: "feature_selection"
+author: "Daniel Gao"
+date: "2024-11-07"
+output: html_document
+---
+
+## Front Matter
+```{r}
+library(tidyverse)
+```
+
+#Exploration of Features
+```{r}
+# PRECTOT - Total Precipitation
+ggplot(data=droughtdf, mapping=aes(x=PRECTOT)) +
+  geom_density()
+
+# PS - Surface Pressure
+ggplot(data=droughtdf, mapping=aes(x=PS)) +
+  geom_density()
+
+# QV2M - Specific Humidity at 2 meters
+ggplot(data=droughtdf, mapping=aes(x=QV2M)) +
+  geom_density()
+```
+
+### DroughDF fips
+```{r}
+#location fips
+droughtdf %>%
+  group_by(fips) %>%
+  summarize(count = n()) %>%
+  head() 
+
+droughtdf %>%
+  group_by(fips) %>%
+  summarize(count = n()) %>%
+  tail() 
+```
+
+### Soil fips
+```{r}
+soil %>%
+  group_by(fips) %>%
+  summarize(count = n()) %>%
+  head() 
+
+soil %>%
+  group_by(fips) %>%
+  summarize(count = n()) %>%
+  tail() 
+```
+### PRECTOT and FIPS
+```{r}
+droughtdf %>%
+  group_by(fips,PRECTOT) %>%
+  summarize(n = n()) %>%
+  arrange(desc(PRECTOT)) %>%
+  tail()
+```
